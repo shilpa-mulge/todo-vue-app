@@ -12,6 +12,9 @@
         :status="status"
       ></todo-item>
     </todo-list>
+    <div class="mt-3 h6">
+      <span>Pending Tasks: {{ incomplete }}</span>
+    </div>
   </div>
 </template>
 
@@ -56,6 +59,9 @@ export default {
     });
   },
   computed: {
+    incomplete() {
+      return this.items.filter((item) => item.completed == false).length;
+    },
     itemsLength() {
       return this.items.length;
     },

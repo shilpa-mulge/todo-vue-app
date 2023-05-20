@@ -1,7 +1,7 @@
 <template>
   <div
-    v-show="status == null || status == item.completed"
     class="px-1 p-2 m-2 h6 d-flex justify-content-between w-100 border rounded"
+    v-if="status == null || status == item.completed"
   >
     <div class="d-flex align-items-center">
       <div class="text-success curser" @click="editMode = !editMode">
