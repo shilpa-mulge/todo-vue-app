@@ -16,27 +16,44 @@
 </template>
 
 <script>
+import "firebase/compat/firestore";
 import TodoInput from "./components/TodoInput";
 import TodoItem from "./components/TodoItem";
 import TodoList from "./components/TodoList";
+import firebaseApp from "./main";
+
 export default {
   name: "App",
   data() {
     return {
-      items: [
-        {
-          id: 1,
-          todo: "Learning vue js",
-          completed: false,
-        },
-        {
-          id: 2,
-          todo: "play game",
-          completed: true,
-        },
-      ],
+      items: [],
       status: null,
     };
+  },
+  mounted() {
+    this.db.collection("todos").onSnapshot((snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        if (change.type == "added") {
+          this.items.push({
+            id: change.doc.id,
+            completed: change.doc.data().completed,
+            todo: change.doc.data().todo,
+          });
+        } else if (change.type == "removed") {
+          this.items = this.items.filter((item) => item.id !== change.doc.id);
+        } else if (change.type === "modified") {
+          this.items = this.items.map((item) => {
+            if (item.id === change.doc.id) {
+              return {
+                ...change.doc.data(),
+                id: change.doc.id,
+              };
+            }
+            return item;
+          });
+        }
+      });
+    });
   },
   computed: {
     itemsLength() {
@@ -48,36 +65,32 @@ export default {
       }
       return 1;
     },
+    db() {
+      return firebaseApp.firestore();
+    },
   },
   methods: {
     addTodo(todo) {
-      this.items.push({
-        id: this.getId,
+      let todoItem = {
         todo,
         completed: false,
-      });
+      };
+      this.db.collection("todos").add(todoItem);
     },
     checkItem(id) {
-      this.items = this.items.map((item) => {
-        if (item.id === id) {
-          return {
-            ...item,
-            completed: !item.completed,
-          };
-        }
-        return item;
+      let item = this.items.find((item) => item.id === id);
+      item.completed = !item.completed;
+      this.updateTodo({
+        id: id,
+        completed: item.completed,
+        todo: item.todo,
       });
     },
     deleteTodo(id) {
-      this.items = this.items.filter((item) => item.id !== id);
+      this.db.collection("todos").doc(id).delete();
     },
     updateTodo(todo) {
-      this.items = this.items.map((item) => {
-        if (item.id == todo.id) {
-          return { ...todo, completed: false };
-        }
-        return item;
-      });
+      this.db.collection("todos").doc(todo.id).update(todo);
     },
     setStatus(val) {
       this.status = val;
