@@ -1,5 +1,6 @@
 <template>
   <div
+    v-show="status == null || status == item.completed"
     class="px-1 p-2 m-2 h6 d-flex justify-content-between w-100 border rounded"
   >
     <div class="d-flex align-items-center">
@@ -13,7 +14,9 @@
     <div v-if="editMode">
       <input @keydown.enter="updateTodo" v-model="todo.todo" />
     </div>
-    <div v-else :class="{ through: item.completed }">{{ item.todo }}</div>
+    <div v-else :class="{ through: item.completed }">
+      {{ item.todo }}
+    </div>
     <div>
       <input type="checkbox" :checked="item.completed" @click="check" />
     </div>
@@ -22,7 +25,7 @@
 
 <script>
 export default {
-  props: ["item"],
+  props: ["item", "status"],
   data() {
     return {
       todo: this.item,
@@ -43,7 +46,6 @@ export default {
       }
     },
   },
-  components: {},
 };
 </script>
 

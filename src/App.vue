@@ -1,7 +1,7 @@
 <template>
   <div class="p-3 w-75 m-2 mx-auto border bg-light">
     <todo-input @addTodo="addTodo"></todo-input>
-    <todo-list>
+    <todo-list @setStatus="setStatus">
       <todo-item
         @updateTodo="updateTodo"
         @deleteTodo="deleteTodo"
@@ -9,6 +9,7 @@
         v-for="item in items"
         :key="item.id"
         :item="item"
+        :status="status"
       ></todo-item>
     </todo-list>
   </div>
@@ -34,6 +35,7 @@ export default {
           completed: true,
         },
       ],
+      status: null,
     };
   },
   computed: {
@@ -72,10 +74,13 @@ export default {
     updateTodo(todo) {
       this.items = this.items.map((item) => {
         if (item.id == todo.id) {
-          return { ...todo };
+          return { ...todo, completed: false };
         }
         return item;
       });
+    },
+    setStatus(val) {
+      this.status = val;
     },
   },
   components: {
