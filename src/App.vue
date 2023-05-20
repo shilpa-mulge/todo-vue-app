@@ -3,6 +3,7 @@
     <todo-input @addTodo="addTodo"></todo-input>
     <todo-list>
       <todo-item
+        @deleteTodo="deleteTodo"
         @checkItem="checkItem"
         v-for="item in items"
         :key="item.id"
@@ -63,6 +64,9 @@ export default {
         }
         return item;
       });
+    },
+    deleteTodo(id) {
+      this.items = this.items.filter((item) => item.id !== id);
     },
   },
   components: {
