@@ -1,6 +1,11 @@
 <template>
   <div class="w-100 p-2">
-    <input class="form-control" placeholder="Add todo" v-model="todo" />
+    <input
+      class="form-control"
+      placeholder="Add todo"
+      v-model="todo"
+      @keydown.enter="addTodo"
+    />
   </div>
 </template>
 
@@ -10,6 +15,11 @@ export default {
     return {
       todo: "",
     };
+  },
+  methods: {
+    addTodo() {
+      this.$emit("addTodo", this.todo);
+    },
   },
   components: {},
 };

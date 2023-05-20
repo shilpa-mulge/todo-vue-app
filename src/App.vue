@@ -1,8 +1,13 @@
 <template>
   <div class="p-3 w-75 m-2 mx-auto border bg-light">
-    <todo-input></todo-input>
+    <todo-input @addTodo="addTodo"></todo-input>
     <todo-list>
-      <todo-item v-for="item in items" :key="item.id" :item="item"></todo-item>
+      <todo-item
+        @checkItem="checkItem"
+        v-for="item in items"
+        :key="item.id"
+        :item="item"
+      ></todo-item>
     </todo-list>
   </div>
 </template>
@@ -28,6 +33,37 @@ export default {
         },
       ],
     };
+  },
+  computed: {
+    itemsLength() {
+      return this.items.length;
+    },
+    getId() {
+      if (this.itemsLength) {
+        return this.items[this.items.length - 1].id + 1;
+      }
+      return 1;
+    },
+  },
+  methods: {
+    addTodo(todo) {
+      this.items.push({
+        id: this.getId,
+        todo,
+        completed: false,
+      });
+    },
+    checkItem(id) {
+      this.items = this.items.map((item) => {
+        if (item.id === id) {
+          return {
+            ...item,
+            completed: !item.completed,
+          };
+        }
+        return item;
+      });
+    },
   },
   components: {
     TodoInput,
