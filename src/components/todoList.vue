@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center text-grey mt-4">
+  <div class="d-flex flex-column p-2 align-items-start justify-content-start">
     <slot></slot>
   </div>
 </template>

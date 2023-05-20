@@ -1,11 +1,15 @@
 <template>
-  <div class="text-center text-grey mt-4"></div>
+  <div class="w-100 p-2">
+    <input class="form-control" placeholder="Add todo" v-model="todo" />
+  </div>
 </template>
 
 <script>
 export default {
   data() {
-    return {};
+    return {
+      todo: "",
+    };
   },
   components: {},
 };

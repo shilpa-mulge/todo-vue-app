@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center text-grey mt-4">
+  <div class="p-3 w-75 m-2 mx-auto border bg-light">
     <todo-input></todo-input>
     <todo-list>
       <todo-item v-for="item in items" :key="item.id" :item="item"></todo-item>
