@@ -1,21 +1,22 @@
 <template>
-  <div>hello</div>
+  <div class="text-center text-grey mt-4">hello</div>
 </template>
 
 <script>
+import TodoInput from "./components/TodoInput";
+import TodoItem from "./components/TodoItem";
+import TodoList from "./components/TodoList";
 export default {
   name: "App",
-  components: {},
+  data() {
+    return {};
+  },
+  components: {
+    TodoInput,
+    TodoItem,
+    TodoList,
+  },
 };
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<style></style>
