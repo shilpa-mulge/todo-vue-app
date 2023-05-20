@@ -3,6 +3,7 @@
     <todo-input @addTodo="addTodo"></todo-input>
     <todo-list>
       <todo-item
+        @updateTodo="updateTodo"
         @deleteTodo="deleteTodo"
         @checkItem="checkItem"
         v-for="item in items"
@@ -67,6 +68,14 @@ export default {
     },
     deleteTodo(id) {
       this.items = this.items.filter((item) => item.id !== id);
+    },
+    updateTodo(todo) {
+      this.items = this.items.map((item) => {
+        if (item.id == todo.id) {
+          return { ...todo };
+        }
+        return item;
+      });
     },
   },
   components: {
