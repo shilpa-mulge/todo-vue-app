@@ -1,6 +1,7 @@
 <template>
   <div class="w-100 p-2">
     <input
+      type="text"
       class="form-control"
       placeholder="Add todo"
       v-model="todo"
@@ -24,7 +25,6 @@ export default {
       }
     },
   },
-  components: {},
 };
 </script>
 

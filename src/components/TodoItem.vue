@@ -14,7 +14,7 @@
     <div v-if="editMode">
       <input @keydown.enter="updateTodo" v-model="todo.todo" />
     </div>
-    <div v-else :class="{ through: item.completed }">
+    <div v-else :class="{ through: item.completed }" @click="console">
       {{ item.todo }}
     </div>
     <div>

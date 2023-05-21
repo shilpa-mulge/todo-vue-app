@@ -1,12 +1,14 @@
 <template>
+  <div class="m-3 text-center h4 p-3">TODO APP</div>
   <div class="p-3 w-75 m-2 mx-auto border bg-light">
     <todo-input @addTodo="addTodo"></todo-input>
+    <todo-search @searchTodo="searchTodo"></todo-search>
     <todo-list @setStatus="setStatus">
       <todo-item
         @updateTodo="updateTodo"
         @deleteTodo="deleteTodo"
         @checkItem="checkItem"
-        v-for="item in items"
+        v-for="item in tasksList"
         :key="item.id"
         :item="item"
         :status="status"
@@ -23,6 +25,7 @@ import "firebase/compat/firestore";
 import TodoInput from "./components/TodoInput";
 import TodoItem from "./components/TodoItem";
 import TodoList from "./components/TodoList";
+import TodoSearch from "./components/TodoSearch";
 import firebaseApp from "./main";
 
 export default {
@@ -31,6 +34,7 @@ export default {
     return {
       items: [],
       status: null,
+      searchTask: "",
     };
   },
   mounted() {
@@ -59,6 +63,13 @@ export default {
     });
   },
   computed: {
+    tasksList() {
+      if (this.searchTask) {
+        return this.items.filter((task) => task.todo.includes(this.searchTask));
+      } else {
+        return this.items;
+      }
+    },
     incomplete() {
       return this.items.filter((item) => item.completed == false).length;
     },
@@ -101,11 +112,15 @@ export default {
     setStatus(val) {
       this.status = val;
     },
+    searchTodo(todo) {
+      this.searchTask = todo;
+    },
   },
   components: {
     TodoInput,
     TodoItem,
     TodoList,
+    TodoSearch,
   },
 };
 </script>
